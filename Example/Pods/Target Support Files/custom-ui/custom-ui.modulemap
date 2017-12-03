@@ -1,0 +1,6 @@
+framework module custom_ui {
+  umbrella header "custom-ui-umbrella.h"
+
+  export *
+  module * { export * }
+}

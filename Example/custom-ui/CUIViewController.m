@@ -7,7 +7,7 @@
 //
 
 #import "CUIViewController.h"
-
+@import custom_ui;
 @interface CUIViewController ()
 
 @end
