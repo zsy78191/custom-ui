@@ -10,6 +10,16 @@
 
 @implementation UIView (cui)
 
+- (void (^)(UIColor *, CGSize, CGFloat))cui_shadow
+{
+    return ^(UIColor * color, CGSize offset, CGFloat blur){
+        self.layer.shadowColor = color.CGColor;
+        self.layer.shadowOffset = offset;
+        self.layer.shadowRadius = blur;
+        self.layer.shadowOpacity = 1.0;
+    };
+}
+
 - (CGFloat)left {
     return self.frame.origin.x;
 }

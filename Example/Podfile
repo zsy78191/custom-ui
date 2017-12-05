@@ -2,7 +2,6 @@ use_frameworks!
 
 target 'custom-ui_Example' do
   pod 'custom-ui', :path => '../'
-
   target 'custom-ui_Tests' do
     inherit! :search_paths
 

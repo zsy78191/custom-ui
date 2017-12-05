@@ -9,7 +9,7 @@
 #ifndef CUIMacro_h
 #define CUIMacro_h
 
-#define N(key) NSLocalizedString((key),nil)
-
-
+//#define N(key) NSLocalizedString((key),nil)
+//#define P(x,y) CGPointMake(x,y)
+//#define VP(x) [NSValue valueWithCGPoint:x]
 #endif /* CUIMacro_h */

@@ -1,5 +1,6 @@
 PODS:
-  - custom-ui (0.1.0)
+  - custom-ui (0.1.0):
+    - pop
   - Expecta (1.0.6)
   - Expecta+Snapshots (3.1.1):
     - Expecta (~> 1.0)
@@ -10,6 +11,7 @@ PODS:
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
+  - pop (1.0.10)
   - Specta (1.0.7)
 
 DEPENDENCIES:
@@ -21,15 +23,16 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   custom-ui:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  custom-ui: 0f6340b2e759ffe40903ad2fce7364234761a6db
+  custom-ui: 2e8fdcefc6620ffe3c6df325883aeb4beff12a27
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   Expecta+Snapshots: dcff217eef506dabd6dfdc7864ea2da321fafbb8
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
 
-PODFILE CHECKSUM: 86122ccce5defccd814556732e14161759c91c70
+PODFILE CHECKSUM: bbf9063c5adcdbe1c8ddda75e8400eb537969799
 
-COCOAPODS: 1.4.0.beta.2
+COCOAPODS: 1.2.0

@@ -21,6 +21,21 @@
     // Dispose of any resources that can be recreated.
 }
 
++ (UIAlertController * _Nonnull (^)(void))alert
+{
+    return ^{
+        return UI_Alert();
+    };
+}
+
++ (UIAlertController * _Nonnull (^)(void))actionSheet
+{
+    return ^{
+        return UI_ActionSheet();
+    };
+}
+
+
 - (UIAlertController *(^)(NSString *))titled
 {
     return ^ (NSString* j) {

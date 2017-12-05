@@ -21,4 +21,6 @@
 @property (nonatomic) CGPoint origin;      ///< Shortcut for frame.origin.
 @property (nonatomic) CGSize  size;        ///< Shortcut for frame.size.
 
+@property (nonatomic, strong, readonly)  void (^cui_shadow)(UIColor* shadowColor,CGSize offset,CGFloat blur);
+
 @end

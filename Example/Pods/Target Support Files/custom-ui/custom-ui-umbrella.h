@@ -10,9 +10,17 @@
 #endif
 #endif
 
+#import "NSArray+Functional.h"
+#import "NSObject+Functional.h"
+#import "NSString+Functional.h"
 #import "CUIMacro.h"
 #import "UIAlertController+Functional.h"
+#import "UIColor+cui_theme.h"
+#import "UIView+Clone.h"
 #import "UIView+cui.h"
+#import "UIView+cui_easy_show.h"
+#import "UIView+gradient.h"
+#import "UIView+POP.h"
 
 FOUNDATION_EXPORT double custom_uiVersionNumber;
 FOUNDATION_EXPORT const unsigned char custom_uiVersionString[];
