@@ -7,6 +7,24 @@
 //
 
 #import "UIView+cui.h"
+#import "NSArray+Functional.h"
+#import <objc/runtime.h>
+
+@interface CUIGradientLayer: CAGradientLayer
+
+@end
+
+@implementation CUIGradientLayer
+
+@end
+
+@interface CUIImageLayer: CALayer
+
+@end
+
+@implementation CUIImageLayer
+
+@end
 
 @implementation UIView (cui)
 
@@ -116,4 +134,180 @@
     self.frame = frame;
 }
 
+
+- (BOOL)cui_hasGradientLayer
+{
+    __block BOOL has = NO;
+    [self.layer.sublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[CUIGradientLayer class]]) {
+            has = YES;
+            *stop = YES;
+        }
+    }];
+    return has;
+}
+
+
+- (BOOL)cui_addGradientLayer
+{
+    if ([self cui_hasGradientLayer]) {
+        return NO;
+    }
+    CUIGradientLayer* layer = [[CUIGradientLayer alloc] init];
+    layer.frame = CGRectMake(0, 0, self.layer.bounds.size.width, self.layer.bounds.size.height);
+    //    layer.frame = self.frame;
+    //    layer.position = self.center;
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 1);
+    [self.layer insertSublayer:layer atIndex:0];
+    return YES;
+}
+
+- (CUIGradientLayer*)_gradientLayer
+{
+    return [[[self.layer sublayers] filter:^BOOL(id x) {
+        return [x isKindOfClass:[CUIGradientLayer class]];
+    }] firstObject];
+}
+
+- (void)cui_setGradientColors:(NSArray<UIColor *> *)colors
+{
+    NSAssert([[colors filter:^BOOL(id x) {
+        return [x isKindOfClass:[UIColor class]];
+    }] count] == colors.count, @"cui_setGradientColors 只能接收UIColor对象");
+    CAGradientLayer* l = [self _gradientLayer];
+    [l setColors:[colors map:^id(id x) {
+        return (id)[x CGColor];
+    }]];
+}
+
+- (void)cui_setGradientLocations:(NSArray<NSNumber *> *)locations
+{
+    NSAssert([[locations filter:^BOOL(id x) {
+        return [x isKindOfClass:[NSNumber class]];
+    }] count] == locations.count, @"cui_setGradientLocations 只能接收UINumber对象");
+    CAGradientLayer* l = [self _gradientLayer];
+    if (!l) {
+        return;
+    }
+    [l setLocations:locations];
+}
+
+- (void)cui_setGradientStartPoint:(CGPoint)sp endPoint:(CGPoint)ep
+{
+    CAGradientLayer* l = [self _gradientLayer];
+    if (!l) {
+        return;
+    }
+    [l setStartPoint:sp];
+    [l setEndPoint:ep];
+}
+
+- (BOOL)cui_hasImageBackgroundLayer
+{
+    __block BOOL has = NO;
+    [self.layer.sublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[CUIImageLayer class]]) {
+            has = YES;
+            *stop = YES;
+        }
+    }];
+    return has;
+}
+
+- (BOOL)cui_addImageBackground:(UIImage *)image
+{
+    if ([self cui_hasGradientLayer]) {
+        return NO;
+    }
+    CUIImageLayer* layer = [[CUIImageLayer alloc] init];
+    layer.frame = CGRectMake(0, 0, self.layer.bounds.size.width, self.layer.bounds.size.height);
+    layer.contents = (id)image.CGImage;
+    layer.contentsGravity = @"resizeAspectFill";
+    [self.layer insertSublayer:layer atIndex:0];
+    return YES;
+}
+
+- (CUIImageLayer*)_bgLayer
+{
+    return [[[self.layer sublayers] filter:^BOOL(id x) {
+        return [x isKindOfClass:[CUIImageLayer class]];
+    }] firstObject];
+}
+
+- (void)cui_setImageBackgroundOpcity:(CGFloat)opcity
+{
+    CUIImageLayer * layer = [self _bgLayer];
+    if (!layer) {
+        return;
+    }
+    layer.opacity = opcity;
+}
+
+- (void)cui_addBlurEffectView:(UIBlurEffectStyle)style
+{
+    __block BOOL has = NO;
+    __block UIView* old = nil;
+    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[UIVisualEffectView class]]) {
+            has = YES;
+            old = obj;
+            * stop = YES;
+        }
+    }];
+    if (has && old) {
+        [old removeFromSuperview];
+    }
+    
+    UIBlurEffect* e = [UIBlurEffect effectWithStyle:style];
+    UIVisualEffectView* view = [[UIVisualEffectView alloc] initWithEffect:e];
+    view.frame = self.bounds;
+    view.autoresizingMask = 0xff;
+    
+    if ([self _bgLayer]) {
+        [self insertSubview:view atIndex:1];
+    }
+    else {
+        [self insertSubview:view atIndex:0];
+    }
+//    [self ];
+}
+
 @end
+
+void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
+{
+    // the method might not exist in the class, but in its superclass
+    Method originalMethod = class_getInstanceMethod(class, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+    
+    // class_addMethod will fail if original method already exists
+    BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+    
+    // the method doesn’t exist and we just added one
+    if (didAddMethod) {
+        class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    }
+    else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+
+@implementation UIControl (cui)
+
++ (void)load
+{
+    swizzleMethod([UIControl class],@selector(swiz_setHighlighted:),@selector(setHighlighted:));
+}
+
+- (void)swiz_setHighlighted:(BOOL)highlighted
+{
+//    NSLog(@"%s",__func__);
+    if ([self cui_hasGradientLayer]) {
+        [[self _gradientLayer] setOpacity:highlighted?0.5:1];
+    }
+    [self swiz_setHighlighted:highlighted];
+}
+
+@end
+

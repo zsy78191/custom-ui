@@ -23,4 +23,23 @@
 
 @property (nonatomic, strong, readonly)  void (^cui_shadow)(UIColor* shadowColor,CGSize offset,CGFloat blur);
 
+- (BOOL)cui_hasGradientLayer;
+- (BOOL)cui_addGradientLayer;
+- (void)cui_setGradientColors:(NSArray<UIColor*>*)colors;
+- (void)cui_setGradientLocations:(NSArray<NSNumber *> *)locations;
+- (void)cui_setGradientStartPoint:(CGPoint)sp endPoint:(CGPoint)ep;
+
+- (BOOL)cui_hasImageBackgroundLayer;
+- (BOOL)cui_addImageBackground:(UIImage*)image;
+- (void)cui_setImageBackgroundOpcity:(CGFloat)opcity;
+
+- (__kindof CALayer*)_gradientLayer;
+
+- (void)cui_addBlurEffectView:(UIBlurEffectStyle)style;
+
+@end
+
+
+@interface UIControl (cui)
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "UIColor+cui_theme.h"
-
+#import <objc/runtime.h>
 @implementation UIColor (cui_theme)
 
 - (UIColor *(^)(CGFloat))a
@@ -139,4 +139,39 @@ static inline NSUInteger hexStrToInt(NSString *str) {
     sscanf([str UTF8String], "%X", &result);
     return result;
 }
+@end
+
+
+
+@implementation CUITheme
+
++ (void)load
+{
+    
+    NSDictionary* defalutKeyAndValue =
+    @{
+      @"g1":@"DEFFC9",
+      @"g2":@"A3F8FF"
+      };
+    NSLog(@"%@",defalutKeyAndValue);
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defalutKeyAndValue];
+    
+    NSDictionary* d = [CUITheme setupCustomTheme];
+    if (d) {
+        NSLog(@"User Defalut");
+        NSLog(@"%@",d);
+        [[NSUserDefaults standardUserDefaults] setValuesForKeysWithDictionary:d];
+    }
+    else{
+        NSLog(@"User Defalut Not Found");
+    }
+}
+
++ (NSDictionary*)setupCustomTheme
+{
+    NSURL* url = [[NSBundle mainBundle] URLForResource:@"custom-ui" withExtension:@"plist"];
+    NSLog(@"%@",url);
+    return [NSDictionary dictionaryWithContentsOfFile:url.path];
+}
+
 @end

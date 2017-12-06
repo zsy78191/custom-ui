@@ -26,3 +26,10 @@
 //- (UIColor *(^)(CGFloat alpha))a;
 @property (readonly, nonatomic) UIColor *(^a)(CGFloat alpha);
 @end
+
+
+@interface CUITheme : NSObject
+
++ (NSDictionary*)setupCustomTheme;
+
+@end
