@@ -15,6 +15,7 @@
 @end
 
 @interface NSString (add)
+
 @property (nonatomic,readonly) NSString* (^l)(void);
 @property (nonatomic,readonly) NSString* (^localizedString)(void);
 @property (nonatomic,readonly) NSString* (^localizedStringFromTable)(NSString* table);

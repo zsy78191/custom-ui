@@ -49,9 +49,12 @@
 
 + (void)openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish
 {
-    if(![CACH checkClass:@"SKStoreProductViewController" sel:@selector(requestReview)])
+    if(![CACH checkClass:@"SKStoreProductViewController"])
     {
         NSLog(@"SKStoreProductViewController is not work for this version system");
+        if (finish) {
+            finish(NO);
+        }
         return;
     }
     SKStoreProductViewController *storeProductVC = [[SKStoreProductViewController alloc] init];

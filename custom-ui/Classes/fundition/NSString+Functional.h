@@ -14,5 +14,4 @@
 @property (nonatomic, strong, readonly) float (^to_f)(void);
 @property (nonatomic, strong, readonly) NSArray* (^split)(NSString* s);
 
-
 @end

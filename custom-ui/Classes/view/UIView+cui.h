@@ -23,6 +23,7 @@
 
 @property (nonatomic, strong, readonly)  void (^cui_shadow)(UIColor* shadowColor,CGSize offset,CGFloat blur);
 
+
 - (BOOL)cui_hasGradientLayer;
 - (BOOL)cui_addGradientLayer;
 - (void)cui_setGradientColors:(NSArray<UIColor*>*)colors;

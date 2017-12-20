@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIColor (cui_theme)
-+ (UIColor *)cui_rgb:(uint32_t)rgbValue;
-+ (UIColor *)cui_rgbHex:(NSString*)rgbHex;
 
 + (void)setColor:(UIColor*)color forKey:(NSString*)key;
 + (UIColor*)colorForKey:(NSString*)key;
@@ -18,9 +16,13 @@
 #if UIKIT_DEFINE_AS_PROPERTIES
 @property (class, readonly, nonatomic) void (^keyed)(NSString *,UIColor *);
 @property (class, readonly, nonatomic) UIColor* (^k)(NSString *);
+@property (class, readonly, nonatomic) UIColor* (^hex)(NSString *);
+@property (class, readonly, nonatomic) UIColor* (^rgb)(uint32_t);
 #else
 + (void (^)(NSString *,UIColor *))keyed;
 + (UIColor *(^)(NSString *))k;
++ (UIColor *)cui_rgb:(uint32_t)rgbValue;
++ (UIColor *)cui_rgbHex:(NSString*)rgbHex;
 #endif
 
 //- (UIColor *(^)(CGFloat alpha))a;

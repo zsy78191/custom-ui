@@ -43,6 +43,20 @@
     return [UIColor colorWithHexString:rgbHex];
 }
 
++ (UIColor *(^)(NSString *))hex
+{
+    return ^ (NSString* hexStr) {
+        return [UIColor colorWithHexString:hexStr];
+    };
+}
+
++ (UIColor *(^)(uint32_t))rgb
+{
+    return ^ (uint32_t n) {
+        return [UIColor cui_rgb:n];
+    };
+}
+
 + (void)setColor:(UIColor *)color forKey:(NSString *)key
 {
     [[NSUserDefaults standardUserDefaults] setObject:[color hexString] forKey:key];
