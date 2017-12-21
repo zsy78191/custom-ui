@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+//typedef UIColor Color;
+
 @interface UIColor (cui_theme)
 
 + (void)setColor:(UIColor*)color forKey:(NSString*)key;

@@ -28,14 +28,50 @@
 
 @implementation UIView (cui)
 
-- (void (^)(UIColor *, CGSize, CGFloat))cui_shadow
+- (__kindof UIView *(^)(UIColor *, CGSize, CGFloat))cui_shadow
 {
     return ^(UIColor * color, CGSize offset, CGFloat blur){
         self.layer.shadowColor = color.CGColor;
         self.layer.shadowOffset = offset;
         self.layer.shadowRadius = blur;
         self.layer.shadowOpacity = 1.0;
+        return self;
     };
+}
+
+- (__kindof UIView *(^)(CGFloat))cui_shadow_alpha
+{
+    return ^(CGFloat alpha) {
+        self.layer.shadowOpacity = alpha;
+        return self;
+    };
+}
+
+
+- (__kindof UIView *(^)(CGPathRef))cui_shadow_path
+{
+    return ^ (CGPathRef r){
+        [self setShadowPath:r];
+        return self;
+    };
+}
+
+- (__kindof UIView *(^)(void (^)(CGMutablePathRef)))cui_shadow_shape
+{
+    return ^ (void (^b)(CGMutablePathRef)) {
+        CGMutablePathRef r = CGPathCreateMutable();
+        if (b) {
+            b(r);
+        }
+        [self setShadowPath:r];
+        CGPathRelease(r);
+        return self;
+    };
+}
+
+- (void)setShadowPath:(CGPathRef)path
+{
+    self.layer.shadowPath = path;
 }
 
 - (CGFloat)left {
