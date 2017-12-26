@@ -9,6 +9,7 @@
 #import "UIImage+cui.h"
 #import "UIColor+blend.h"
 #import "UIColor+cui_theme.h"
+#import "NSObject+Functional.h"
 
 @implementation UIImageDraw
 - (NSMutableArray *)colors
@@ -47,7 +48,9 @@
 - (UIImageDraw *(^)(UIColor *))addColor
 {
     return ^ (UIColor * color){
-        [self.colors addObject:color];
+        if (color) {
+           [self.colors addObject:color];
+        }
         return self;
     };
 }
@@ -88,6 +91,29 @@
 @end
 
 @implementation UIImage (cui)
+
++ (UIImageDraw *(^)(void))beginGradient
+{
+    return ^{
+        return UIImageDraw.begin();
+    };
+}
+
+- (UIImage *(^)(CGFloat, CGFloat))asBorder
+{
+    return ^ (CGFloat width, CGFloat r){
+        return [self asBorder:width r:r];
+    };
+}
+
+- (UIImage*)asBorder:(CGFloat)width r:(CGFloat)r
+{
+    CUIRect * rect = CUIRect.r(CGRectMake(0, 0, self.size.width, self.size.height));
+    CGRect fr =
+    rect.margin(UIEdgeInsetsMake(width, width, width, width))
+    .rect;
+    return [self imageWithRoundedBorder:r frame:fr];
+}
 
 + (UIImage *)rect:(CGSize)size color:(UIColor *)color
 {
@@ -168,11 +194,80 @@
     };
 }
 
-//生成圆角UIIamge 的方法
-- (UIImage *)imageWithRoundedCornersSize:(float)cornerRadius
+- (UIImage *(^)(UIImage *))asIcon
 {
+    return ^(UIImage * oi){
+        return [self imageWithMaskImage:oi];
+    };
+}
+
+- (UIImage*)imageWithMaskImage:(UIImage*)maskImage
+{
+    CGImageRef maskRef = maskImage.CGImage;
+//    CGImageAlphaInfo info = CGImageGetAlphaInfo(maskRef);
+    
+    CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                    CGImageGetHeight(maskRef),
+                                    CGImageGetBitsPerComponent(maskRef),
+                                    CGImageGetBitsPerPixel(maskRef),
+                                    CGImageGetBytesPerRow(maskRef),
+                                    CGImageGetDataProvider(maskRef), NULL, false);
+//    CGImageRef mask = CGImageCreateWithImageInRect(maskRef, CGRectMake(0, 0, maskImage.size.width, maskImage.size.height));
+    /*
+    CGImageRef mask = CGImageCreate(CGImageGetWidth(maskRef),
+                                    CGImageGetHeight(maskRef),
+                                    CGImageGetBitsPerComponent(maskRef),
+                                    CGImageGetBitsPerPixel(maskRef),
+                                    CGImageGetBytesPerRow(maskRef),
+                                    CGImageGetColorSpace(maskRef),
+                                    CGImageGetBitmapInfo(maskRef),
+                                    CGImageGetDataProvider(maskRef),
+                                    NULL,
+                                    false,
+                                    CGImageGetRenderingIntent(maskRef));
+    */
+//    CGImageAlphaInfo info1 = CGImageGetAlphaInfo([self CGImage]);
+    
+    CGImageRef masked = CGImageCreateWithMask([self CGImage],mask);
+    CGImageRelease(mask);
+//    UIImage *maskedImage = [UIImage imageWithCGImage:masked ];
+    UIImage * maskedImage = [UIImage imageWithCGImage:masked 
+                                                scale:self.scale                                          orientation:UIImageOrientationUp];
+ 
+
+    CGImageRelease(masked);
+    return maskedImage;
+}
+
+//切圆边
+- (UIImage *)imageWithRoundedBorder:(float)cornerRadius frame:(CGRect)frame;{
     UIImage *original = self;
-    CGRect frame = CGRectMake(0, 0, original.size.width, original.size.height);
+    // 开始一个Image的上下文
+    UIGraphicsBeginImageContextWithOptions(original.size, NO, self.scale);
+    // 绘制图片
+    CGRect or = CGRectMake(0, 0, self.size.width, self.size.height);
+    [[UIBezierPath bezierPathWithRoundedRect:or
+                                cornerRadius:cornerRadius] addClip];
+    [original drawInRect:or];
+
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
+    
+    CGFloat dr = (self.size.width - frame.size.width)/2;
+    UIBezierPath* p1 = [UIBezierPath bezierPathWithRoundedRect:frame
+                                              cornerRadius:cornerRadius-dr];
+    [p1 fill];
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    // 接受绘制成功的图片
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+//切圆角
+- (UIImage *)imageWithRoundedCornersSize:(float)cornerRadius frame:(CGRect)frame;{
+    UIImage *original = self;
     // 开始一个Image的上下文
     UIGraphicsBeginImageContextWithOptions(original.size, NO, self.scale);
     // 添加圆角
@@ -184,6 +279,14 @@
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
+}
+
+//生成圆角UIIamge 的方法
+- (UIImage *)imageWithRoundedCornersSize:(float)cornerRadius
+{
+    UIImage *original = self;
+    CGRect frame = CGRectMake(0, 0, original.size.width, original.size.height);
+    return [self imageWithRoundedCornersSize:cornerRadius frame:frame];
 }
 
 - (UIImage *(^)(CGFloat))cornerRadius

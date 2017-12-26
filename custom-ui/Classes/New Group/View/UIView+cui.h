@@ -21,10 +21,14 @@
 @property (nonatomic) CGPoint origin;      ///< Shortcut for frame.origin.
 @property (nonatomic) CGSize  size;        ///< Shortcut for frame.size.
 
-@property (nonatomic, strong, readonly)  __kindof UIView* (^cui_shadow)(UIColor* shadowColor,CGSize offset,CGFloat blur);
-@property (nonatomic, strong, readonly)  __kindof UIView* (^cui_shadow_alpha)(CGFloat alpha);
-@property (nonatomic, strong, readonly)  __kindof UIView* (^cui_shadow_path)(CGPathRef r);
-@property (nonatomic, strong, readonly)  __kindof UIView* (^cui_shadow_shape)(void (^)(CGMutablePathRef r));
+@property (nonatomic, readonly)  __kindof UIView* (^cui_shadow)(UIColor* shadowColor,CGSize offset,CGFloat blur);
+@property (nonatomic, readonly)  __kindof UIView* (^cui_shadow_alpha)(CGFloat alpha);
+@property (nonatomic, readonly)  __kindof UIView* (^cui_shadow_path)(CGPathRef r);
+@property (nonatomic, readonly)  __kindof UIView* (^cui_shadow_shape)(void (^)(CGMutablePathRef r));
+
+@property (nonatomic, readonly)  __kindof UIView* (^cui_center)(CGPoint center);
+@property (nonatomic, readonly)  __kindof UIView* (^cui_framed)(CGRect frame);
+@property (nonatomic, readonly)  __kindof UIView* (^cui_sizeToFit)(void);
 
 - (BOOL)cui_hasGradientLayer;
 - (BOOL)cui_addGradientLayer;

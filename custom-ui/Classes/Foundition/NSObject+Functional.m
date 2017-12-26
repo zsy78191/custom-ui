@@ -8,7 +8,7 @@
 
 #import "NSObject+Functional.h"
 
-@implementation NSValue(add)
+@implementation NSValue(functional)
 
 
 + (NSValue *(^)(CGPoint))p
@@ -32,52 +32,7 @@
     };
 }
 @end
-
-
-@implementation NSString(add)
-
-+ (NSString *(^)(CGPoint))p
-{
-    return ^(CGPoint p){
-        return NSStringFromCGPoint(p);
-    };
-}
-
-+ (NSString *(^)(CGSize))s
-{
-    return ^(CGSize p){
-        return NSStringFromCGSize(p);
-    };
-}
-
-+ (NSString *(^)(CGRect))r
-{
-    return ^(CGRect p){
-        return NSStringFromCGRect(p);
-    };
-}
-
-- (NSString *(^)(void))l
-{
-    return [self localizedString];
-}
-
-- (NSString *(^)(void))localizedString
-{
-    return ^ {
-        return NSLocalizedString(self, nil);
-    };
-}
-
-- (NSString *(^)(NSString *))localizedStringFromTable
-{
-    return ^ (NSString* table){
-        return NSLocalizedStringFromTable(self, table, nil);
-    };
-}
-
-@end
-
+ 
 
 @implementation CUIGeometry
 
@@ -99,6 +54,13 @@
 {
     return ^ (CGFloat x , CGFloat y, CGFloat w, CGFloat h){
         return CGRectMake(x, y, w, h);
+    };
+}
+
++ (UIEdgeInsets (^)(CGFloat, CGFloat, CGFloat, CGFloat))insets
+{
+    return ^ (CGFloat x , CGFloat y, CGFloat w, CGFloat h){
+        return UIEdgeInsetsMake(x, y, w, h);
     };
 }
 

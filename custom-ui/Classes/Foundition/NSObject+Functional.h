@@ -8,28 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSValue (add)
+@interface NSValue (functional)
 @property (class,nonatomic,readonly) NSValue* (^p)(CGPoint p);
 @property (class,nonatomic,readonly) NSValue* (^s)(CGSize s);
 @property (class,nonatomic,readonly) NSValue* (^r)(CGRect r);
 @end
 
-@interface NSString (add)
-
-@property (nonatomic,readonly) NSString* (^l)(void);
-@property (nonatomic,readonly) NSString* (^localizedString)(void);
-@property (nonatomic,readonly) NSString* (^localizedStringFromTable)(NSString* table);
-
-@property (class,nonatomic,readonly) NSString* (^p)(CGPoint p);
-@property (class,nonatomic,readonly) NSString* (^s)(CGSize s);
-@property (class,nonatomic,readonly) NSString* (^r)(CGRect r);
-@end
-
-
 @interface CUIGeometry : NSObject
 @property (class,nonatomic,readonly) CGPoint (^point)(CGFloat x, CGFloat y);
 @property (class,nonatomic,readonly) CGSize (^size)(CGFloat w, CGFloat h);
 @property (class,nonatomic,readonly) CGRect (^rect)(CGFloat x, CGFloat y, CGFloat w, CGFloat h);
+@property (class,nonatomic,readonly) UIEdgeInsets (^insets)(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right);
 @end
 
 @interface _CG: CUIGeometry

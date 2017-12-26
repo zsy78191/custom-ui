@@ -50,6 +50,29 @@
     [b cui_setGradientStartPoint:CGPointMake(0, 0) endPoint:CGPointMake(1, 0)];
 }
 
+
++ (UIViewController *)topedViewController {
+    UIViewController *resultVC;
+    resultVC = [[self class] _topViewController:[[UIApplication sharedApplication].keyWindow rootViewController]];
+    while (resultVC.presentedViewController) {
+        resultVC = [[self class] _topViewController:resultVC.presentedViewController];
+    }
+    return resultVC;
+}
+
++ (UIViewController *)_topViewController:(UIViewController *)vc {
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        return [[self class] _topViewController:[(UINavigationController *)vc topViewController]];
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {
+        return [[self class] _topViewController:[(UITabBarController *)vc selectedViewController]];
+    } else {
+        return vc;
+    }
+    return nil;
+}
+
+
+
 @end
 
 @implementation UINavigationController (cui)

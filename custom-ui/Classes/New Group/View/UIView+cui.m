@@ -42,7 +42,9 @@
 - (__kindof UIView *(^)(CGFloat))cui_shadow_alpha
 {
     return ^(CGFloat alpha) {
-        self.layer.shadowOpacity = alpha;
+        if (self.layer.shadowOpacity != alpha) {
+            self.layer.shadowOpacity = alpha;
+        }
         return self;
     };
 }
@@ -170,6 +172,29 @@
     self.frame = frame;
 }
 
+- (__kindof UIView *(^)(CGPoint))cui_center
+{
+    return ^(CGPoint p){
+        self.center = p;
+        return self;
+    };
+}
+
+- (__kindof UIView *(^)(CGRect))cui_framed
+{
+    return ^(CGRect p){
+        self.frame = p;
+        return self;
+    };
+}
+
+- (__kindof UIView *(^)(void))cui_sizeToFit
+{
+    return ^{
+        [self sizeToFit];
+        return self;
+    };
+}
 
 - (BOOL)cui_hasGradientLayer
 {

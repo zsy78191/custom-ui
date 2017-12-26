@@ -6,17 +6,17 @@
 //  Copyright © 2017年 orzer. All rights reserved.
 //
 
-#import "AppleAPIHelper+Event.h"
+#import "CUISystemService+Event.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@implementation AppleAPIHelper (Event)
+@implementation CUISystemService (Event)
 
 
-- (void)APH_AccessForEventKitType:(EKEntityType)type result:(void(^)(BOOL))result
+- (void)cui_accessForEventKitType:(EKEntityType)type result:(void(^)(BOOL))result
 {
-    [self.store requestAccessToEntityType:type completion:^(BOOL granted, NSError * _Nullable error) {
+    [self.cui_event_store requestAccessToEntityType:type completion:^(BOOL granted, NSError * _Nullable error) {
         if (!granted) {
             NSLog(@"%@",error);
         }
@@ -26,21 +26,21 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (BOOL)APH_AccessForEventKit:(EKEntityType)type
+- (BOOL)cui_accessForEventKit:(EKEntityType)type
 {
     return [EKEventStore authorizationStatusForEntityType:type] == EKAuthorizationStatusAuthorized;
 }
 
-- (NSArray*)APH_CalendarWithType:(EKEntityType)type
+- (NSArray*)cui_calendarWithType:(EKEntityType)type
 {
-    return [self.store calendarsForEntityType:type];
+    return [self.cui_event_store calendarsForEntityType:type];
 }
 
-- (EKSource*)APH_SourceWithType:(EKSourceType)type
+- (EKSource*)cui_sourceWithType:(EKSourceType)type
 {
     EKSource *localSource = nil;
-    NSLog(@"source %@",self.store.sources);
-    for (EKSource *source in self.store.sources)
+//    NSLog(@"source %@",self.cui_event_store.sources);
+    for (EKSource *source in self.cui_event_store.sources)
     {
         if (source.sourceType == type)
         {
@@ -51,29 +51,29 @@ NS_ASSUME_NONNULL_BEGIN
     return localSource;
 }
 
-- (nullable NSString *)APH_CalendarIdentifierWithKey:(NSString *)key
+- (nullable NSString *)cui_calendarIdentifierWithKey:(NSString *)key
 {
     NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
     NSString* calendarIdentifier = [def valueForKey:key];
     return calendarIdentifier;
 }
 
-- (void)APH_SetIdentifier:(NSString *)identifier withCalendarKey:(NSString *)key
+- (void)cui_setIdentifier:(NSString *)identifier withCalendarKey:(NSString *)key
 {
     NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
     [def setValue:identifier forKey:key];
     [def synchronize];
 }
 
-- (EKCalendar *)APH_CreateOrGetCalendarWithIdentifier:(NSString *)identifier type:(EKEntityType)type createBlock:(void (^)(EKCalendar* calendar))createBlock;
+- (EKCalendar *)cui_createOrGetCalendarWithIdentifier:(NSString *)identifier type:(EKEntityType)type createBlock:(void (^)(EKCalendar* calendar))createBlock;
 {
     if (identifier) {
-        EKCalendar* calendar = [self.store calendarWithIdentifier:identifier];
+        EKCalendar* calendar = [self.cui_event_store calendarWithIdentifier:identifier];
         if (calendar) {
             return calendar;
         }
     }
-    EKCalendar* calendar = [EKCalendar calendarForEntityType:type eventStore:self.store];
+    EKCalendar* calendar = [EKCalendar calendarForEntityType:type eventStore:self.cui_event_store];
     if(createBlock)
     {
         createBlock(calendar);

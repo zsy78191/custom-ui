@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SKStoreProductViewControllerDelegate;
 
-@interface AppleAPIHelper : NSObject
+@interface CUISystemService : NSObject
 
 
 /**
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return 系统是否支持
  */
-+ (BOOL)RequestAppleReview;
++ (BOOL)cui_requestAppleReview;
 
 
 /**
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param style 反馈强度
  */
-+ (void)HapticFeedback:(UIImpactFeedbackStyle)style;
++ (void)cui_hapticFeedback:(UIImpactFeedbackStyle)style;
 
 
 
@@ -40,13 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param vc 当前的ViewController
  @param finish 结果block
  */
-+ (void)openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish;
++ (void)cui_openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish;
 
 
 /**
  操作系统日历的Store实例
  */
-@property (nonatomic, strong) EKEventStore* store;
+@property (nonatomic, strong) EKEventStore* cui_event_store;
 
 @end
 

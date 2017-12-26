@@ -6,17 +6,17 @@
 //  Copyright © 2017年 orzer. All rights reserved.
 //
 
-#import "AppleAPIHelper.h"
+#import "CUISystemService.h"
 #import <StoreKit/SKStoreReviewController.h>
 #import <UserNotifications/UserNotifications.h>
-#import "CocoaAPICheckHelper.h"
+#import "CUIAPIChecker.h"
 @import EventKit;
 @import StoreKit;
 
 
-@implementation AppleAPIHelper
+@implementation CUISystemService
 
-+ (BOOL)RequestAppleReview
++ (BOOL)cui_requestAppleReview
 {
     if(![CACH checkClass:@"SKStoreReviewController" sel:@selector(requestReview)])
     {
@@ -30,7 +30,7 @@
     return YES;
 }
 
-+ (void)HapticFeedback:(UIImpactFeedbackStyle)style
++ (void)cui_hapticFeedback:(UIImpactFeedbackStyle)style
 {
     if(![CACH checkClass:@"UIImpactFeedbackGenerator"])
     {
@@ -47,7 +47,7 @@
 }
 
 
-+ (void)openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish
++ (void)cui_openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish
 {
     if(![CACH checkClass:@"SKStoreProductViewController"])
     {
@@ -80,12 +80,12 @@
      }];
 }
 
-- (EKEventStore *)store
+- (EKEventStore *)cui_event_store
 {
-    if (!_store) {
-        _store = [[EKEventStore alloc] init];
+    if (!_cui_event_store) {
+        _cui_event_store = [[EKEventStore alloc] init];
     }
-    return _store;
+    return _cui_event_store;
 }
  
 

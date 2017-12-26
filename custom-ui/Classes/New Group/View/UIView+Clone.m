@@ -51,7 +51,7 @@
 
 @implementation UIView (Clone)
 
-+ (void)registStyle:(NSString *)key make:(nonnull void (^)(id _Nonnull))makeBlock
++ (void)cui_registStyle:(NSString *)key make:(nonnull void (^)(id _Nonnull))makeBlock
 {
     id a = [[[self class] alloc] init];
     if (makeBlock) {
@@ -60,9 +60,9 @@
     [[UIViewMakerCore core] regist:key make:a];
 }
 
-+ (__kindof UIView *)cloneForKey:(NSString *)key
++ (__kindof UIView *)cui_cloneForKey:(NSString *)key
 {
-    return [[[UIViewMakerCore core] makeForKey:key] clone];
+    return [[[UIViewMakerCore core] makeForKey:key] cui_clone];
 }
 
 + (__kindof UIView*)duplicate:(__kindof UIView*)view
@@ -71,22 +71,22 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
 }
 
-- (void)copyTimes:(NSUInteger)times make:(nonnull void (^)(id _Nonnull, NSUInteger))makeBlock
+- (void)cui_copyTimes:(NSUInteger)times make:(nonnull void (^)(id _Nonnull, NSUInteger))makeBlock
 {
     for (int i = 0; i < times; ++i) {
-        id a = [self clone];
+        id a = [self cui_clone];
         if (makeBlock) {
             makeBlock(a,i);
         }
     }
 }
 
-- (UIView *)clone
+- (UIView *)cui_clone
 {
     return [[self class] duplicate:self];
 }
 
-- (void)setAttr:(void (^)(id _Nonnull))makeBlock
+- (void)cui_setAttr:(void (^)(id _Nonnull))makeBlock
 {
     if (makeBlock) {
         makeBlock(self);

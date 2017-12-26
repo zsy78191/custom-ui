@@ -6,7 +6,7 @@
 //  Copyright © 2017年 orzer. All rights reserved.
 //
 
-#import "CocoaAPICheckHelper.h"
+#import "CUIAPIChecker.h"
 
 @implementation CACH
 

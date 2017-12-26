@@ -6,12 +6,12 @@
 //  Copyright © 2017年 orzer. All rights reserved.
 //
 
-#import "AppleAPIHelper.h"
+#import "CUISystemService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @import EventKit;
-@interface AppleAPIHelper (Event)
+@interface CUISystemService (Event)
 {
     
 }
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param type 事件类型，EKEntityTypeEvent 或者 EKEntityTypeReminder
  @return 是否有权限
  */
-- (BOOL)APH_AccessForEventKit:(EKEntityType)type;
+- (BOOL)cui_accessForEventKit:(EKEntityType)type;
 
 
 /**
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param type 事件类型
  @param result 结果block
  */
-- (void)APH_AccessForEventKitType:(EKEntityType)type result:(void(^)(BOOL))result;
+- (void)cui_accessForEventKitType:(EKEntityType)type result:(void(^)(BOOL))result;
 
 /**
  获取类型的Source
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param type 事件类型
  @return Source
  */
-- (EKSource*)APH_SourceWithType:(EKSourceType)type;
+- (EKSource*)cui_sourceWithType:(EKSourceType)type;
 
 
 /**
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param type 事件类型
  @return 日历数组
  */
-- (NSArray*)APH_CalendarWithType:(EKEntityType)type;
+- (NSArray*)cui_calendarWithType:(EKEntityType)type;
 
 
 /**
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param key 键
  @return id
  */
-- (nullable NSString *)APH_CalendarIdentifierWithKey:(NSString *)key;
+- (nullable NSString *)cui_calendarIdentifierWithKey:(NSString *)key;
 
 
 /**
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param identifier id
  @param key 键
  */
-- (void)APH_SetIdentifier:(NSString *)identifier withCalendarKey:(NSString *)key;
+- (void)cui_setIdentifier:(NSString *)identifier withCalendarKey:(NSString *)key;
 
 
 /**
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param createBlock 新日历配置block
  @return 日历实例
  */
-- (EKCalendar *)APH_CreateOrGetCalendarWithIdentifier:(NSString *)identifier type:(EKEntityType)type createBlock:(void (^)(EKCalendar* calendar))createBlock;
+- (EKCalendar *)cui_createOrGetCalendarWithIdentifier:(NSString *)identifier type:(EKEntityType)type createBlock:(void (^)(EKCalendar* calendar))createBlock;
 
 @end
 

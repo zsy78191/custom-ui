@@ -38,6 +38,8 @@
 @property (nonatomic, readonly) UIImage* (^resizeWithMode)(UIEdgeInsets insets, UIImageResizingMode m);
 @property (nonatomic, readonly, class) UIImage* (^gradientImage)(CGSize size,NSArray* colors, CGPoint st, CGPoint et);
 @property (nonatomic, readonly, class) UIImageDraw* (^beginGradient)(void);
+@property (nonatomic, readonly) UIImage* (^asBorder)(CGFloat width,CGFloat radius);
+@property (nonatomic, readonly) UIImage* (^asIcon)(UIImage* icon);
 
 + (UIImage*)gradientWithDraw:(UIImageDraw*)draw;
 + (UIImage*)gradient:(CGSize)size;

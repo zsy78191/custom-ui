@@ -59,12 +59,14 @@
 
 + (void)setColor:(UIColor *)color forKey:(NSString *)key
 {
+    key = [NSString stringWithFormat:@"color_key_%@",key];
     [[NSUserDefaults standardUserDefaults] setObject:[color hexString] forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (UIColor *)colorForKey:(NSString *)key
 {
+    key = [NSString stringWithFormat:@"color_key_%@",key];
     if([[NSUserDefaults standardUserDefaults] objectForKey:key])
     {
         return [UIColor colorWithHexString:[[NSUserDefaults standardUserDefaults] objectForKey:key]];
@@ -161,7 +163,6 @@ static inline NSUInteger hexStrToInt(NSString *str) {
 
 + (void)load
 {
-    
     NSDictionary* defalutKeyAndValue =
     @{
       @"g1":@"DEFFC9",
@@ -171,10 +172,15 @@ static inline NSUInteger hexStrToInt(NSString *str) {
     [[NSUserDefaults standardUserDefaults] registerDefaults:defalutKeyAndValue];
     
     NSDictionary* d = [CUITheme setupCustomTheme];
+    NSMutableDictionary* temp = [NSMutableDictionary dictionaryWithCapacity:10];
+    [d enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString* key1 = [NSString stringWithFormat:@"color_key_%@",key];
+        [temp setValue:obj forKey:key1];
+    }];
     if (d) {
         NSLog(@"User Defalut");
         NSLog(@"%@",d);
-        [[NSUserDefaults standardUserDefaults] setValuesForKeysWithDictionary:d];
+        [[NSUserDefaults standardUserDefaults] setValuesForKeysWithDictionary:temp];
     }
     else{
         NSLog(@"User Defalut Not Found");
@@ -184,7 +190,7 @@ static inline NSUInteger hexStrToInt(NSString *str) {
 + (NSDictionary*)setupCustomTheme
 {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"custom-ui" withExtension:@"plist"];
-    NSLog(@"%@",url);
+//    NSLog(@"%@",url);
     return [NSDictionary dictionaryWithContentsOfFile:url.path];
 }
 

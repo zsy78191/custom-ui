@@ -11,6 +11,7 @@
 @interface UIViewController (cui)
 
 - (void)showBottomButton:(SEL)selector;
++ (UIViewController *)topedViewController;
 
 @end
 
