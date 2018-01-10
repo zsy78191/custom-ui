@@ -64,7 +64,6 @@ typedef void (^_dispatch_block_t_self)(GCDSemaphore* t);
     
 }
 
-
 +(instancetype)semaphore:(int)value;
 
 @property (nonatomic, strong, readonly) dispatch_semaphore_t semaphore_t;
