@@ -14,6 +14,13 @@
 
 @implementation GCDQuene
 
++ (void (^)(dispatch_block_t))main
+{
+    return ^ (dispatch_block_t t){
+        dispatch_async(GCDQuene.mainQuene(), t);
+    };
+}
+
 + (dispatch_queue_t (^)(void))mainQuene
 {
     return ^ {
@@ -21,14 +28,14 @@
     };
 }
 
-+ (dispatch_queue_t (^)(void))golbalQuene
++ (dispatch_queue_t (^)(void))globalQuene
 {
     return ^ {
         return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     };
 }
 
-+ (dispatch_queue_t (^)(int))golbalQueneWithPriority
++ (dispatch_queue_t (^)(int))globalQueneWithPriority
 {
     return ^(int p) {
         return dispatch_get_global_queue(p, 0);

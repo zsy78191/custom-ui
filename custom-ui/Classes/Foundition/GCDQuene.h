@@ -11,10 +11,11 @@
 @interface GCDQuene : NSObject
 
 @property (nonatomic, strong, readonly) dispatch_queue_t quene_t;
-@property (nonatomic, class,readonly) dispatch_queue_t (^golbalQuene)(void);
-@property (nonatomic, class,readonly) dispatch_queue_t (^golbalQueneWithPriority)(int priority);
+@property (nonatomic, class,readonly) dispatch_queue_t (^globalQuene)(void);
+@property (nonatomic, class,readonly) dispatch_queue_t (^globalQueneWithPriority)(int priority);
 @property (nonatomic, class,readonly) dispatch_queue_t (^mainQuene)(void);
 @property (nonatomic, class,readonly) dispatch_queue_t (^quene)(NSString* name);
+@property (nonatomic, class,readonly) void (^main)(dispatch_block_t t);
 
 
 + (instancetype)queneWithName:(NSString*)name;
