@@ -21,6 +21,13 @@
     };
 }
 
++ (void (^)(dispatch_block_t))global
+{
+    return ^ (dispatch_block_t t){
+        dispatch_async(GCDQuene.globalQuene(), t);
+    };
+}
+
 + (dispatch_queue_t (^)(void))mainQuene
 {
     return ^ {

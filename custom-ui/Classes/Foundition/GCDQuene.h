@@ -16,7 +16,7 @@
 @property (nonatomic, class,readonly) dispatch_queue_t (^mainQuene)(void);
 @property (nonatomic, class,readonly) dispatch_queue_t (^quene)(NSString* name);
 @property (nonatomic, class,readonly) void (^main)(dispatch_block_t t);
-
+@property (nonatomic, class,readonly) void (^global)(dispatch_block_t t);
 
 + (instancetype)queneWithName:(NSString*)name;
 
