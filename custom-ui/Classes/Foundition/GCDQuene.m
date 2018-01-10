@@ -136,21 +136,47 @@
 
 #pragma  mark - instance method
 
-- (void)async:(dispatch_block_t)t
+- (void)_async:(dispatch_block_t)t
 {
     dispatch_async(self.quene_t, t);
 }
 
-- (void)sync:(dispatch_block_t)t
+- (void)_sync:(dispatch_block_t)t
 {
     dispatch_sync(self.quene_t, t);
 }
 
-- (void)barrier:(dispatch_block_t)t
+- (void)_barrier:(dispatch_block_t)t
 {
     dispatch_barrier_sync(self.quene_t, t);
 }
 
+- (GCDQuene *(^)(dispatch_block_t))async
+{
+    return ^ (dispatch_block_t t)
+    {
+        dispatch_async(self.quene_t, t);
+        return self;
+    };
+}
+
+- (GCDQuene *(^)(dispatch_block_t))sync
+{
+    return ^ (dispatch_block_t t)
+    {
+        dispatch_sync(self.quene_t, t);
+        return self;
+    };
+}
+
+- (GCDQuene *(^)(dispatch_block_t))barrier
+{
+    return ^ (dispatch_block_t t)
+    {
+        dispatch_barrier_sync(self.quene_t, t);
+        return self;
+    };
+}
 
 @end
 

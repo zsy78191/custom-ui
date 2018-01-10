@@ -33,9 +33,13 @@
 
 // instance method
 
-- (void)async:(dispatch_block_t)t;
-- (void)sync:(dispatch_block_t)t;
-- (void)barrier:(dispatch_block_t)t;
+- (void)_async:(dispatch_block_t)t;
+- (void)_sync:(dispatch_block_t)t;
+- (void)_barrier:(dispatch_block_t)t;
+
+@property (nonatomic, readonly) GCDQuene* (^async)(dispatch_block_t t);
+@property (nonatomic, readonly) GCDQuene* (^sync)(dispatch_block_t t);
+@property (nonatomic, readonly) GCDQuene* (^barrier)(dispatch_block_t t);
 
 @end
 
