@@ -19,6 +19,7 @@
 @property (nonatomic, class,readonly) void (^global)(dispatch_block_t t);
 
 + (instancetype)queneWithName:(NSString*)name;
++ (instancetype)mainQueneInstance;
 
 + (BOOL)isMainThread;
 + (void)syncRunAtMainThread:(dispatch_block_t)block;
@@ -29,6 +30,12 @@
 + (dispatch_queue_t)asyncRunBlock:(dispatch_block_t)block;
 
 + (void)asyncAtGlobalThread:(dispatch_block_t)block thanAtMainThread:(dispatch_block_t)mainBlock;
+
+// instance method
+
+- (void)async:(dispatch_block_t)t;
+- (void)sync:(dispatch_block_t)t;
+- (void)barrier:(dispatch_block_t)t;
 
 @end
 

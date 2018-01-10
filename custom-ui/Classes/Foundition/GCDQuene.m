@@ -14,6 +14,14 @@
 
 @implementation GCDQuene
 
+
++ (instancetype)mainQueneInstance
+{
+    GCDQuene* q = [[GCDQuene alloc] init];
+    q.quene_t = GCDQuene.mainQuene();
+    return q;
+}
+
 + (void (^)(dispatch_block_t))main
 {
     return ^ (dispatch_block_t t){
@@ -125,6 +133,24 @@
         
     });
 }
+
+#pragma  mark - instance method
+
+- (void)async:(dispatch_block_t)t
+{
+    dispatch_async(self.quene_t, t);
+}
+
+- (void)sync:(dispatch_block_t)t
+{
+    dispatch_sync(self.quene_t, t);
+}
+
+- (void)barrier:(dispatch_block_t)t
+{
+    dispatch_barrier_sync(self.quene_t, t);
+}
+
 
 @end
 
