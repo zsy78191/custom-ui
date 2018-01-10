@@ -178,6 +178,32 @@
     };
 }
 
+- (GCDQuene *(^)(NSTimeInterval ,dispatch_block_t))after
+{
+    return ^(NSTimeInterval s,dispatch_block_t t)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(s * NSEC_PER_SEC)), dispatch_get_main_queue(), t);
+        return self;
+    };
+}
+
+- (GCDQuene *(^)(_dispatch_block_t_self))semaphore
+{
+    return ^ (_dispatch_block_t_self t)
+    {
+        self.async(^{
+            GCDSemaphore* s = [GCDSemaphore semaphore:0];
+            if (t) {
+                t(s);
+            }
+            s.wait(^{
+                
+            });
+        });
+        return self;
+    };
+}
+
 @end
 
 @interface GCDGroup ()
@@ -210,6 +236,62 @@
         dispatch_group_notify(self.group_t, q, b);
         return self;
     };
+}
+
+@end
+
+
+@interface GCDSemaphore()
+{
+    
+}
+@property (nonatomic, strong, readwrite) dispatch_semaphore_t semaphore_t;
+@end
+
+
+@implementation GCDSemaphore
+
+//- (dispatch_semaphore_t)semaphore_t
+//{
+//    if (!_semaphore_t) {
+//        _semaphore_t = dispatch_semaphore_create(10);
+//    }
+//    return _semaphore_t;
+//}
+
+- (GCDSemaphore* (^)(dispatch_block_t))wait
+{
+    return ^(dispatch_block_t t){
+        dispatch_semaphore_wait(self.semaphore_t, DISPATCH_TIME_FOREVER);
+        if (t) {
+            t();
+        }
+        return self;
+    };
+}
+
+- (GCDSemaphore*  (^)(_dispatch_block_t_self))run
+{
+    return ^ (_dispatch_block_t_self t){
+        if (t) {
+            t(self);
+        }
+        return self;
+    };
+}
+
+- (void (^)(void))signal
+{
+    return ^ {
+        dispatch_semaphore_signal(self.semaphore_t);
+    };
+}
+
++ (instancetype)semaphore:(int)value
+{
+    GCDSemaphore* s = [[GCDSemaphore alloc] init];
+    s.semaphore_t = dispatch_semaphore_create(value);
+    return s;
 }
 
 @end
