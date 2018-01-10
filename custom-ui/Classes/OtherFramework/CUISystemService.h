@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 @class EKEventStore;
+@import StoreKit;
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SKStoreProductViewControllerDelegate;
@@ -42,6 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)cui_openAppStore:(NSString *)appId vc:(id<SKStoreProductViewControllerDelegate>)vc complate:(void (^)(BOOL))finish;
 
+
++ (void)startForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate products:(NSSet*)products;
++ (void)endForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate;
+
++ (void)purchaseProduct:(SKProduct*)product;
+
++ (void)restoreProduct;
 
 /**
  操作系统日历的Store实例

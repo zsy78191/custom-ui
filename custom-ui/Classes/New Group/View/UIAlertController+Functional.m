@@ -121,6 +121,11 @@ UIAlertController* UI_ActionSheet(){
 }
 
 
+- (void)dealloc
+{
+    NSLog(@"%s",__func__);
+}
+
  
 /*
 #pragma mark - Navigation

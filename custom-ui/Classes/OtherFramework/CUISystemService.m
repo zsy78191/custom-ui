@@ -89,5 +89,29 @@
 }
  
 
++ (void)startForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate products:(NSSet*)products
+{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:delegate];
+    SKProductsRequest* r = [[SKProductsRequest alloc] initWithProductIdentifiers:products];
+    r.delegate = delegate;
+    [r start];
+}
+
++ (void)endForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate
+{
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:delegate];
+}
+
++ (void)purchaseProduct:(SKProduct *)product
+{
+    SKPayment* p = [SKPayment paymentWithProduct:product];
+    [[SKPaymentQueue defaultQueue] addPayment:p];
+}
+
++ (void)restoreProduct;
+{
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+
 
 @end

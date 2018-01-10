@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation CUISystemService (Event)
 
-
 - (void)cui_accessForEventKitType:(EKEntityType)type result:(void(^)(BOOL))result
 {
     [self.cui_event_store requestAccessToEntityType:type completion:^(BOOL granted, NSError * _Nullable error) {
