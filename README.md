@@ -11,6 +11,12 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+POP
+
+## Notice
+
+If you use this framework , you need to add `NSCalendarsUsageDescription` key into `Info.plist`, because `CUISystemService` class used system authorized of calendar.
+
 ## Installation
 
 custom-ui is available through [CocoaPods](http://cocoapods.org). To install
@@ -19,6 +25,11 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod 'custom-ui'
 ```
+
+## Classes
+
+### CUISystemService
+### CUISystemService+Event
 
 ## Author
 
