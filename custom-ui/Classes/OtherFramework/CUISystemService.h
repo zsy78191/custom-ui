@@ -46,9 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)startForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate products:(NSSet*)products;
 + (void)endForStore:(id<SKPaymentTransactionObserver,SKProductsRequestDelegate>)delegate;
-
 + (void)purchaseProduct:(SKProduct*)product;
-
 + (void)restoreProduct;
 
 /**

@@ -34,5 +34,4 @@
 @property (nonatomic, readonly) POPBasicAnimation* (^cui_timing)(CAMediaTimingFunction* timing);
 @property (nonatomic, readonly) POPBasicAnimation* (^cui_ease_custom)(CGFloat p1x,CGFloat p1y,CGFloat p2x,CGFloat p2y);
 @property (nonatomic, readonly) POPBasicAnimation* (^cui_ease)(NSString*);
-
 @end
