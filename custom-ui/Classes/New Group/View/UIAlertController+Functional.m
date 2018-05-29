@@ -76,7 +76,7 @@
     };
 }
 
-- (UIAlertController * _Nonnull (^)(NSString * _Nonnull, void (^ _Nullable)(UIAlertAction * _Nonnull)))cancell
+- (UIAlertController * _Nonnull (^)(NSString * _Nonnull, void (^ _Nullable)(UIAlertAction * _Nonnull)))cancel
 {
     return ^ (NSString* j,  void (^ __nullable block)(UIAlertAction *action)) {
         [self addAction:[UIAlertAction actionWithTitle:j style:1 handler:block]];
